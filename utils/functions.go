@@ -55,3 +55,14 @@ func ReadLines(r io.Reader) []string {
 
 	return result
 }
+
+func Abs(a int) int {
+	if a < 0 {
+		return 0 - a
+	}
+	return a
+}
+
+func Remove(slice []int, s int) []int {
+	return append(slice[:s], slice[s+1:]...)
+}
