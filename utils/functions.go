@@ -67,6 +67,15 @@ func Remove(slice []int, s int) []int {
 	return append(slice[:s], slice[s+1:]...)
 }
 
+func IndexOf(s []int, v int) int {
+	for i, val := range s {
+		if val == v {
+			return i
+		}
+	}
+	return -1
+}
+
 func ReadChars(reader io.Reader) ([][]rune, error) {
 	scanner := bufio.NewScanner(reader)
 	var result [][]rune
