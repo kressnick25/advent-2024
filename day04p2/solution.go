@@ -1,61 +1,65 @@
 package day04p2
 
 import (
-	"io"
-	"strings"
-
 	"aoc/utils"
+	"io"
 )
 
 const xmas = "XMAS"
 
-func rightSamMas(lines []string, i int, j int) bool {
+func rightSamMas(lines [][]rune, i int, j int, lenRow int, lenCol int) bool {
 	ari, arj := i-1, j+1
-	if ari < 0 || arj >= len(lines[0]) {
+	if ari < 0 || arj >= lenCol {
 		return false
 	}
-	ar := strings.Split(lines[ari], "")[arj]
+	ar := lines[ari][arj]
 	bli, blj := i+1, j-1
-	if bli >= len(lines) || blj < 0 {
+	if bli >= lenRow || blj < 0 {
 		return false
 	}
-	bl := strings.Split(lines[bli], "")[blj]
-	if ar == "M" && bl == "S" {
+	bl := lines[bli][blj]
+	if ar == 'M' && bl == 'S' {
 		return true
 	}
-	if ar == "S" && bl == "M" {
+	if ar == 'S' && bl == 'M' {
 		return true
 	}
 	return false
 }
 
-func leftSamMas(lines []string, i int, j int) bool {
+func leftSamMas(lines [][]rune, i int, j int, lenRow int, lenCol int) bool {
 	ali, alj := i-1, j-1
 	if ali < 0 || alj < 0 {
 		return false
 	}
-	al := strings.Split(lines[ali], "")[alj]
+	al := lines[ali][alj]
 	bri, brj := i+1, j+1
-	if bri >= len(lines) || brj >= len(lines[0]) {
+	if bri >= lenRow || brj >= lenCol {
 		return false
 	}
-	br := strings.Split(lines[bri], "")[brj]
-	if al == "M" && br == "S" {
+	br := lines[bri][brj]
+	if al == 'M' && br == 'S' {
 		return true
 	}
-	if al == "S" && br == "M" {
+	if al == 'S' && br == 'M' {
 		return true
 	}
 	return false
 }
 
 func Solve(r io.Reader) any {
-	lines := utils.ReadLines(r)
+	lines, err := utils.ReadChars(r)
+	if err != nil {
+		panic(err)
+	}
+
 	total := 0
+	lenRow := len(lines)
+	lenCol := len(lines[0])
 	for i, line := range lines {
-		for j, char := range strings.Split(line, "") {
-			if char == "A" {
-				if leftSamMas(lines, i, j) && rightSamMas(lines, i, j) {
+		for j, char := range []rune(line) {
+			if char == 'A' {
+				if leftSamMas(lines, i, j, lenRow, lenCol) && rightSamMas(lines, i, j, lenRow, lenCol) {
 					total += 1
 				}
 			}

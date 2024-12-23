@@ -66,3 +66,20 @@ func Abs(a int) int {
 func Remove(slice []int, s int) []int {
 	return append(slice[:s], slice[s+1:]...)
 }
+
+func ReadChars(reader io.Reader) ([][]rune, error) {
+	scanner := bufio.NewScanner(reader)
+	var result [][]rune
+
+	for scanner.Scan() {
+		line := scanner.Text()
+		runeSlice := []rune(line)
+		result = append(result, runeSlice)
+	}
+
+	if err := scanner.Err(); err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}
